@@ -26,6 +26,9 @@ if ! [ -a /home/$THE_USER/.config/autostart ]
 	mkdir /home/$THE_USER/.config/autostart
 fi
 
+
+chmod +x uninstall.sh
+
 chown $THE_USER /home/$THE_USER/.config/autostart
 
 cp audio.sh.desktop /home/$THE_USER/.config/autostart/
@@ -81,4 +84,3 @@ then
 firewall-cmd --permanent --zone=libvirt --add-port=4010/udp
 fi
 
-chmod +x uninstall.sh
