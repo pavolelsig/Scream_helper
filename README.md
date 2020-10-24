@@ -8,5 +8,4 @@ Download Scream for the guest: https://github.com/duncanthrax/scream/releases
 
 Supported Linux distributions: Ubuntu, Manjaro, Fedora, PopOS and Mint
 
-For guide, visit: 
-
+For guide, visit: https://youtu.be/AfUgNEOx3uk
