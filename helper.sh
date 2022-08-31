@@ -10,12 +10,15 @@ if [ $EUID -ne 0 ]
 		exit 1
 fi
 
-#This script should only run if scream-master is present
-if [ -a scream-master ]
+
+SCREAM_SOURCE=$(find . -maxdepth 1 -type d -iname '*scream*' -print -quit)
+
+#This script should only run if scream source folder is present
+if [ -d "$SCREAM_SOURCE" ]
 	then 
 		echo "Continuing with scream installation"
 	else
-		echo "Scream-master not found in this directory. Please move scream-master into this directory and try again."
+		echo "Scream source folder not found in this directory. Please move scream source folder into this directory and try again."
 		exit
 fi
 
@@ -64,7 +67,7 @@ echo "You can still install Looking Glass manually!"
 fi
 
 #Compiling scream receiver
-cd scream-master/Receivers/unix/
+cd $SCREAM_SOURCE/Receivers/unix/
 
 mkdir build
 
