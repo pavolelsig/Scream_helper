@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+
+CONFIG_FILE="/etc/scream/devices"
+
+for device in $(cat $CONFIG_FILE);
+do
+	if ! screen -list | grep "scream-audio-$device"
+	then
+		screen -S "scream-audio-$device" -dm /usr/bin/scream -i $device
+	fi
+done
+

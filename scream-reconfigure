@@ -1,0 +1,43 @@
+#!/bin/bash
+
+set -e
+
+CONFIG_FILE="/etc/scream/devices"
+
+if [ $EUID -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
+
+if [ ! -d $(dirname $CONFIG_FILE) ]
+then 
+	echo "No directory found for $CONFIG_FILE, creating..."
+	mkdir $(dirname $CONFIG_FILE)
+else
+	echo "$CONFIG_FILE was found, should the script remove it? y/N"
+	read YN
+	
+	if [ -z $YN ]; then YN=n; fi	
+	if [ $YN = y ]
+	then
+		echo "Removing $CONFIG_FILE. New devices will be added to a new file crated instead of it..."
+		rm $CONFIG_FILE
+	else
+		echo "$CONFIG_FILE will not be removed, new devices will be added to the existing file."
+	fi
+fi
+
+echo ""
+
+for line in `virsh net-list --all --name`
+do
+	device=$(echo $(virsh net-info --network $line | grep "Bridge:") | sed "s/Bridge: //")
+	echo $device >> $CONFIG_FILE
+	echo "Found a bridge device: $device"
+done
+
+echo ""
+echo "Found device names were saved to $CONFIG_FILE. They will now be used by scream."
+echo "If you want to exclude some devices, edit $CONFIG_FILE manually."
+echo "Done."
